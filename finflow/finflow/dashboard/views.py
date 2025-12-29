@@ -10,8 +10,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
-
-
+from rest_framework import permissions
 
 class TransactionViewSet(viewsets.ModelViewSet):
     queryset = Transaction.objects.all()
@@ -20,6 +19,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
     filterset_fields = ['type', 'category']
     search_fields = ['title', 'notes']
     ordering_fields = ['date', 'amount', 'created_at']
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     
     def get_queryset(self):
         queryset = super().get_queryset()
