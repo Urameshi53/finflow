@@ -19,7 +19,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
     filterset_fields = ['type', 'category']
     search_fields = ['title', 'notes']
     ordering_fields = ['date', 'amount', 'created_at']
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated] # API Authentication
     
     def get_queryset(self):
         queryset = super().get_queryset()

@@ -1,9 +1,13 @@
 from rest_framework import serializers
 from .models import Transaction
+from rest_framework import permissions
+
 
 class TransactionSerializer(serializers.ModelSerializer):
     # Format the date for frontend
     date = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", required=False)
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
     
     class Meta:
         model = Transaction
