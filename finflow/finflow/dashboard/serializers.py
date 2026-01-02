@@ -19,7 +19,7 @@ class TransactionSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Expense amount must be positive")
         return data
     
-class CategorySerializer(serializers.Serializer):
+class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['id', 'name', 'type', 'custom']
+        fields = ['id', 'name', 'is_custom']

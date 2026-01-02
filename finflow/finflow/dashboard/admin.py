@@ -6,12 +6,12 @@ class TransactionAdmin(admin.ModelAdmin):
     list_display = ('title', 'amount', 'type', 'category', 'date', 'created_at')
     list_filter = ('type', 'category', 'date')
     search_fields = ('title', 'notes')
-    date_hierarchy = 'date'
     ordering = ('-date',)
+
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'type', 'is_custom')
-    list_filter = ('type', 'is_custom')
+    list_display = ('name', 'is_custom')
+    list_filter = ('is_custom',)
     search_fields = ('name',)
     ordering = ('name',)
