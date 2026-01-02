@@ -105,3 +105,19 @@ class Transaction(models.Model):
     @property
     def is_income(self):
         return self.type == self.INCOME
+    
+
+class Category(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=50, unique=True)
+
+    TYPE_CHOICES = [
+        ('Expense', 'Expense'),
+        ('Income', 'Income'),
+    ]
+
+    type = models.CharField(max_length=10, unique=False, choices=TYPE_CHOICES)
+    is_custom = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name

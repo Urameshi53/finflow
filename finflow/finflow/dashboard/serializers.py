@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Transaction
+from .models import Transaction, Category
 from rest_framework import permissions
 
 
@@ -8,7 +8,6 @@ class TransactionSerializer(serializers.ModelSerializer):
     date = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", required=False)
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-    
     class Meta:
         model = Transaction
         fields = ['id', 'title', 'amount', 'type', 'category', 'date', 'notes', 'created_at', 'updated_at']
@@ -19,3 +18,8 @@ class TransactionSerializer(serializers.ModelSerializer):
         if data.get('type') == Transaction.EXPENSE and data.get('amount') <= 0:
             raise serializers.ValidationError("Expense amount must be positive")
         return data
+    
+class CategorySerializer(serializers.Serializer):
+    class Meta:
+        model = Category
+        fields = ['id', 'name', 'type', 'custom']

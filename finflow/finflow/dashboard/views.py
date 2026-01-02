@@ -2,8 +2,8 @@ from rest_framework import viewsets, filters, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Transaction
-from .serializers import TransactionSerializer
+from .models import Transaction, Category
+from .serializers import TransactionSerializer, CategorySerializer
 from django.db.models import Sum
 from datetime import datetime, timedelta
 from rest_framework.authtoken.models import Token
@@ -86,3 +86,9 @@ def login(request):
         return Response({'token': token.key})
     else:
         return Response({'error': 'Invalid credentials'}, status=400)
+    
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = [permissions.IsAuthenticated]
