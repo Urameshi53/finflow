@@ -28,16 +28,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated] # API Authentication
     
     def get_queryset(self):
-        queryset = super().get_queryset()
-        
-        # Filter by date range if provided
-        start_date = self.request.query_params.get('start_date')
-        end_date = self.request.query_params.get('end_date')
-        
-        if start_date and end_date:
-            queryset = queryset.filter(date__range=[start_date, end_date])
-        
-        return queryset
+        return Transaction.objects.filter(user=self.request.user)
     
     @action(detail=False, methods=['get'])
     def summary(self, request):
