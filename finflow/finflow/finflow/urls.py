@@ -19,6 +19,7 @@ from django.urls import path, include
 from rest_framework import routers, serializers, viewsets
 from dashboard.views import TransactionViewSet, CategoryViewSet
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from dashboard.views import CustomTokenObtainPairView
 
 router = routers.DefaultRouter()
 router.register(r"transactions", TransactionViewSet)
@@ -27,7 +28,7 @@ router.register(r"categories", CategoryViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path("api/login/", TokenObtainPairView.as_view()),
+    path("api/login/",  CustomTokenObtainPairView.as_view()),
     path("api/token/refresh/", TokenRefreshView.as_view()),
     path('api-auth/', include('rest_framework.urls')), # For browsable API logic
 ]
