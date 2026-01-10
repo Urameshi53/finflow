@@ -1,7 +1,9 @@
+from requests import Response
 from rest_framework import serializers
 from .models import Transaction, Category
 from rest_framework import permissions
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from http import HTTPStatus as status
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
@@ -34,8 +36,35 @@ class TransactionSerializer(serializers.ModelSerializer):
         if data.get('type') == Transaction.EXPENSE and data.get('amount') <= 0:
             raise serializers.ValidationError("Expense amount must be positive")
         return data
+
+    
+    # CREATE
+    def post(self, request):
+        serializer = TransactionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    # UPDATE
+    def put(self, request, pk):
+        transaction = Transaction.objects.get(pk=pk)
+        serializer = TransactionSerializer(transaction, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    # DELETE
+    def delete(self, request, pk):
+        transaction = Transaction.objects.get(pk=pk)
+        transaction.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
     
 class CategorySerializer(serializers.ModelSerializer):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     class Meta:
         model = Category
         fields = ['id', 'name', 'is_custom']
