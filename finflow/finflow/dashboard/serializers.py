@@ -67,4 +67,4 @@ class CategorySerializer(serializers.ModelSerializer):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     class Meta:
         model = Category
-        fields = ['id', 'name', 'is_custom']
+        fields = ['id', 'name', 'is_custom', 'icon', 'color']

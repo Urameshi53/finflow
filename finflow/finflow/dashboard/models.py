@@ -7,6 +7,8 @@ class Category(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, unique=True)
     is_custom = models.BooleanField(default=False)
+    icon = models.CharField(max_length=100, blank=True, null=True)
+    color = models.CharField(max_length=7, blank=True, null=True)  # e.g., #RRGGBB
 
     def __str__(self):
         return self.name
