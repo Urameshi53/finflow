@@ -4,6 +4,7 @@ from .models import Transaction, Category
 from rest_framework import permissions
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from http import HTTPStatus as status
+from accounts.models import Avatar
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
@@ -15,6 +16,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             "username": self.user.username,
             "email": self.user.email,
             "is_staff": self.user.is_staff,
+            "color": getattr(getattr(self.user, "avatar", None), "color", None),
         }
 
         return data
