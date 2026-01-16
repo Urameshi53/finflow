@@ -16,7 +16,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             "username": self.user.username,
             "email": self.user.email,
             "is_staff": self.user.is_staff,
-            "color": getattr(getattr(self.user, "avatar", None), "color", None),
+            "currency": getattr(getattr(self.user, "avatar", None), "currency", None),
         }
 
         return data
